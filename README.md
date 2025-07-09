@@ -21,6 +21,18 @@ Esse projeto me permitiu aplicar na prática os conhecimentos adquiridos na áre
 
 ---
 # Casos De Uso
-<img src="./doc/UserCases.png"/>
+
+<img src="./doc/UserCases.png" height= "600px" />
 
 ---
+# Diagrama de Entidade-Relacionamento
+
+<img src="./doc/DER.png" height= "600px"/>
+
+---
+# Diagrama de Classes
+
+<img src="./doc/Diagrama de Classes.png" height= "600px"/>
+
+---
+
