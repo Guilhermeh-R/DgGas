@@ -39,10 +39,10 @@ Esse projeto me permitiu aplicar na prática os conhecimentos adquiridos na áre
 # Wireframes
 
 <div align="center">
-  <img src="./doc/WIREFRAME 1.jpg height= "600px"/>
-  <img src="./doc/WIREFRAME 2.jpg height= "600px"/>
-  <img src="./doc/WIREFRAME 3.jpg height= "600px"/>
-  <img src="./doc/WIREFRAME 4.jpg height= "600px"/>
+  <img src="./doc/WIREFRAME 1.jpg" height= "600px"/>
+  <img src="./doc/WIREFRAME 2.jpg" height= "600px"/>
+  <img src="./doc/WIREFRAME 3.jpg" height= "600px"/>
+  <img src="./doc/WIREFRAME 4.jpg" height= "600px"/>
 </div>
 
 ---
