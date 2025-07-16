@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DgApplication<dg>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.dg.DgApplication",
+            "projectName": "dg",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
