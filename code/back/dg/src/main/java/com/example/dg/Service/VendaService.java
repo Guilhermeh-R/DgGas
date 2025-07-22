@@ -50,13 +50,13 @@ public class VendaService {
         if (vendas.size() >= 2) {
             // Ordena por data crescente
             vendas.sort(Comparator.comparing(Venda::getData));
-
+            //soma os intervalos entre as vendas para calcular a média
             long somaIntervalos = 0;
             for (int i = 1; i < vendas.size(); i++) {
                 long intervalo = vendas.get(i).getData().getTime() - vendas.get(i - 1).getData().getTime();
                 somaIntervalos += intervalo;
             }
-
+            // A quantidade de intervalos e 1 a menos que o numero de vendas
             long mediaIntervalos = somaIntervalos / (vendas.size() - 1);
 
             long proximaPrevisao = novaVenda.getData().getTime() + mediaIntervalos;
