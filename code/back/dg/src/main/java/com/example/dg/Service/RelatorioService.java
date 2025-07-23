@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.dg.Modals.Cliente;
 import com.example.dg.Modals.Venda;
 import com.example.dg.Repository.ClienteRepository;
 import com.example.dg.Repository.RelatorioRepository;
@@ -111,7 +112,7 @@ public class RelatorioService {
                 .sum();
     }
     public byte[] gerarRelatorioClientes(int tempomes) {
-        List<Map<String, Object>> clientes = clienteRepository.findAllClientesWithVendas();
+        List<Cliente> clientes = clienteRepository.findAllClientesWithVendas();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (PdfWriter writer = new PdfWriter(baos);
@@ -120,8 +121,8 @@ public class RelatorioService {
 
             document.add(new Paragraph("Relatório de Clientes com Vendas"));
 
-            for(Map<String, Object> cliente : clientes) {
-                Date dataUltimaVenda = (Date) cliente.get("dataUltimaVenda");
+            for(Cliente cliente : clientes) {
+                Date dataUltimaVenda = cliente.getDataUltimaCompra();
                 LocalDate ultimaVenda = dataUltimaVenda.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 LocalDate now = LocalDate.now();
 
@@ -131,10 +132,10 @@ public class RelatorioService {
                 + java.time.Period.between(ultimaVenda, now).getYears() * 12;
 
                 if(mesesSemCompra >= tempomes){
-                    document.add(new Paragraph("Cliente: " + cliente.get("nome")
+                    document.add(new Paragraph("Cliente: " + cliente.getNome()
                         + " - Última compra: " + ultimaVenda
                         + " (" + mesesSemCompra + " meses sem comprar)"));
-                    document.add(new Paragraph("Telefone: " + cliente.get("telefone")));
+                    document.add(new Paragraph("Telefone: " + cliente.getTelefone()));
                 }
             }
         } catch (Exception e) {

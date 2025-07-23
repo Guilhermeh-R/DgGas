@@ -20,9 +20,7 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    /**
-     * @param clienteService
-     */
+
     public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
