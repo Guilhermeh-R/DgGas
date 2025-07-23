@@ -47,7 +47,7 @@ export default function Clientes() {
         Adicionar Cliente
       </button>
 
-      <ul className="w-screen px-4 space-y-4 mt-6">
+      <ul className="w-full px-4 space-y-4 mt-6">
         <li className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start">
           <div>
             <p><strong>Nome:</strong> João</p>
