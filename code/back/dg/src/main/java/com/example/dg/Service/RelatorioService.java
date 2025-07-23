@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.dg.Modals.Venda;
+import com.example.dg.Repository.ClienteRepository;
 import com.example.dg.Repository.RelatorioRepository;
 import com.example.dg.Repository.VendaRepository;
 import com.example.dg.dto.RelatorioDto;
@@ -25,13 +26,16 @@ import org.springframework.http.HttpHeaders;
 
 @Service
 public class RelatorioService {
+
+    private ClienteRepository clienteRepository;
     @Autowired
     private RelatorioRepository relatorioRepository;
     @Autowired
     private VendaRepository vendaRepository;
 
-    public RelatorioService(RelatorioRepository relatorioRepository) {
+    public RelatorioService(RelatorioRepository relatorioRepository, ClienteRepository clienteRepository) {
         this.relatorioRepository = relatorioRepository;
+        this.clienteRepository = clienteRepository;
     }
    public byte[] gerarRelatorioMensal(RelatorioDto request) {
     int ano = request.getAno();
@@ -105,6 +109,39 @@ public class RelatorioService {
         return vendasDoMes.stream()
                 .mapToDouble(Venda::getValor) // ajuste se o nome do método for diferente
                 .sum();
+    }
+    public byte[] gerarRelatorioClientes(int tempomes) {
+        List<Map<String, Object>> clientes = clienteRepository.findAllClientesWithVendas();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try (PdfWriter writer = new PdfWriter(baos);
+             PdfDocument pdfDoc = new PdfDocument(writer);
+             Document document = new Document(pdfDoc)) {
+
+            document.add(new Paragraph("Relatório de Clientes com Vendas"));
+
+            for(Map<String, Object> cliente : clientes) {
+                Date dataUltimaVenda = (Date) cliente.get("dataUltimaVenda");
+                LocalDate ultimaVenda = dataUltimaVenda.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate now = LocalDate.now();
+
+                // Calcular meses sem compra
+
+                int mesesSemCompra = java.time.Period.between(ultimaVenda, now).getMonths()
+                + java.time.Period.between(ultimaVenda, now).getYears() * 12;
+
+                if(mesesSemCompra >= tempomes){
+                    document.add(new Paragraph("Cliente: " + cliente.get("nome")
+                        + " - Última compra: " + ultimaVenda
+                        + " (" + mesesSemCompra + " meses sem comprar)"));
+                    document.add(new Paragraph("Telefone: " + cliente.get("telefone")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return baos.toByteArray();
     }
 
 
