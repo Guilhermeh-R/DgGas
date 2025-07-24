@@ -10,7 +10,7 @@ import com.example.dg.Modals.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-    @Query("SELECT c FROM Cliente c JOIN FETCH c.dataUltimaCompra d WHERE d IS NOT NULL")
+    @Query("SELECT c FROM Cliente c WHERE c.dataUltimaCompra IS NOT NULL")
     List<Cliente> findAllClientesWithVendas();
 
 }
