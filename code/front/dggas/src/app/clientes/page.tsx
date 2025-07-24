@@ -1,43 +1,72 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getClientes } from "./service";
 
 export default function Clientes() {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ nome: "", telefone: "", endereco: "" , dataUltimaCompra: "" , previsaoTerminoGas: "" });
+  const [clientes, setClientes] = useState([]);
+  const [mensagem, setMensagem] = useState("");
+  const [tipoMensagem, setTipoMensagem] = useState<"sucesso" | "erro" | "">("");
 
+    
   const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = (e: { preventDefault: () => void; }) => {
-  e.preventDefault(); // importante evitar recarregamento da página
-  console.log("Cliente adicionado:", form);
+  // Carregar clientes ao montar o componente
+  useEffect(() => {
+    getClientes()
+      .then((data) => setClientes(data))
+      .catch((error) => console.error("Erro ao carregar clientes:", error));
+  }, []);
 
-  fetch("http://localhost:8080/clientes/cadastrar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(form),
-  })
-    .then((response) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/clientes/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
       if (response.ok) {
-        console.log("Cliente adicionado com sucesso");
-      } else {
-        console.error("Erro ao adicionar cliente", form);
-      }
-    })
-    .catch((error) => {
-      console.error("Erro ao adicionar cliente:", error);
-    });
+        setMensagem("Cliente cadastrado com sucesso!");
+        setTipoMensagem("sucesso");
+        
+        await getClientes();
 
-  setForm({ nome: "", telefone: "", endereco: "", dataUltimaCompra: "", previsaoTerminoGas: "" });
-  setShowModal(false);
-};
+        setShowModal(false);
+        setForm({ nome: "", telefone: "", endereco: "", dataUltimaCompra: "", previsaoTerminoGas: "" });
+      } else {
+        setMensagem("Erro ao cadastrar cliente.");
+        setTipoMensagem("erro");
+      }
+    } catch (error) {
+      setMensagem("Erro ao conectar com o servidor.");
+      setTipoMensagem("erro");
+    }
+
+    // Limpa mensagem após 3 segundos
+    setTimeout(() => {
+      setMensagem("");
+      setTipoMensagem("");
+    }, 3000);
+  };
 
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4">
+      {mensagem && (
+        <div className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white z-50 transition-all duration-300
+          ${tipoMensagem === "sucesso" ? "bg-green-500" : "bg-red-500"}`}>
+          {mensagem}
+        </div>
+      )}
       <h1 className="text-center text-3xl font-bold mb-8">Clientes</h1>
 
       <button
@@ -48,24 +77,20 @@ export default function Clientes() {
       </button>
 
       <ul className="w-full px-4 space-y-4 mt-6">
-        <li className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start">
-          <div>
-            <p><strong>Nome:</strong> João</p>
-            <p><strong>Endereço:</strong> Rua x, 123</p>
-          </div>
-          <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-            Editar
-          </button>
-        </li>
-        <li className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start">
-          <div>
-            <p><strong>Nome:</strong> Maria Silva</p>
-            <p><strong>Endereço:</strong> Rua y, 56</p>
-          </div>
-          <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-            Editar
-          </button>
-        </li>
+        {clientes.map((cliente: any) => (
+          <li
+            key={cliente.id}
+            className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start"
+          >
+            <div>
+              <p><strong>Nome:</strong> {cliente.nome}</p>
+              <p><strong>Endereço:</strong> {cliente.endereco}</p>
+            </div>
+            <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+              Editar
+            </button>
+          </li>
+        ))}
       </ul>
 
       {/* Modal */}
