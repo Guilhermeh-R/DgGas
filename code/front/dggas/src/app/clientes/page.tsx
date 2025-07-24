@@ -10,6 +10,7 @@ export default function Clientes() {
   const [tipoMensagem, setTipoMensagem] = useState<"sucesso" | "erro" | "">("");
 
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -77,6 +78,7 @@ export default function Clientes() {
       </button>
 
       <ul className="w-full px-4 space-y-4 mt-6">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {clientes.map((cliente: any) => (
           <li
             key={cliente.id}

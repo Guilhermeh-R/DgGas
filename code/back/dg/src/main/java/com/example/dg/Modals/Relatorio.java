@@ -22,5 +22,5 @@ public class Relatorio {
     private String tipo;
 
     @Column(columnDefinition = "TEXT")
-    private String conteudo;
+    private byte[] conteudo;
 }

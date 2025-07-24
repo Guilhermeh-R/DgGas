@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.dg.Modals.Cliente;
+import com.example.dg.Modals.Relatorio;
 import com.example.dg.Modals.Venda;
 import com.example.dg.Repository.ClienteRepository;
 import com.example.dg.Repository.RelatorioRepository;
@@ -76,12 +77,20 @@ public class RelatorioService {
         }
 
         // Total do mês
-        double totalMes = calcularTotalDoMes(ano, mes);
+        double totalMes = calcularTotalDoMes(ano, mes).stream()
+                                    .mapToDouble(v -> v.getValor())
+                                    .sum();
         document.add(new Paragraph("\nFaturamento total do mês: R$ " + String.format("%.2f", totalMes)).setBold());
 
     } catch (Exception e) {
         e.printStackTrace();
     }
+            Relatorio relatorio = Relatorio.builder()
+                .dataGeracao(new Date())
+                .tipo("Relatório Mensal de Vendas")
+                .conteudo(baos.toByteArray())
+                .build();
+        relatorioRepository.save(relatorio);
 
     return baos.toByteArray();
 }
@@ -97,7 +106,16 @@ public class RelatorioService {
                 .mapToDouble(v -> v.getValor()) 
                 .sum();
     }
-    public double calcularTotalDoMes(int ano, int mes) {
+    public List<Venda> calcularQtdDoHoje() {
+
+        Date consultaDia = new Date();
+
+
+        List<Venda> vendasDoDia = vendaRepository.findByDataBetween(consultaDia, consultaDia);
+
+        return vendasDoDia;
+    }
+    public List<Venda> calcularTotalDoMes(int ano, int mes) {
     // Converter LocalDate para Date
         LocalDate inicioLocalDate = LocalDate.of(ano, mes, 1);
         LocalDate fimLocalDate = inicioLocalDate.withDayOfMonth(inicioLocalDate.lengthOfMonth());
@@ -107,9 +125,7 @@ public class RelatorioService {
 
         List<Venda> vendasDoMes = vendaRepository.findByDataBetween(inicio, fim);
 
-        return vendasDoMes.stream()
-                .mapToDouble(Venda::getValor) // ajuste se o nome do método for diferente
-                .sum();
+        return vendasDoMes;
     }
     public byte[] gerarRelatorioClientes(int tempomes) {
         List<Cliente> clientes = clienteRepository.findAllClientesWithVendas();
@@ -141,6 +157,12 @@ public class RelatorioService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Relatorio relatorio = Relatorio.builder()
+                .dataGeracao(new Date())
+                .tipo("Relatório de Clientes com Vendas")
+                .conteudo(baos.toByteArray())
+                .build();
+        relatorioRepository.save(relatorio);
 
         return baos.toByteArray();
     }
