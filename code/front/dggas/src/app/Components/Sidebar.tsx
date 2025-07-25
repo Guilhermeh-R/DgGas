@@ -14,7 +14,7 @@ export default function Sidebar() {
   return (
     <div className="Barra_lateral">
       <nav>
-        <ul className="space-y-8 w-full">
+        <ul className=" w-full">
           {menu.map(item => (
             <li
                 key={item.href}
@@ -24,7 +24,8 @@ export default function Sidebar() {
                     : "w-full"
                 }
                 >
-                <Link href={item.href} className="hover:underline block w-full h-full">
+                <Link href={item.href} className="hover:underline block w-full h-full px-4 py-3">
+
                     {item.label}
                 </Link>
             </li>
