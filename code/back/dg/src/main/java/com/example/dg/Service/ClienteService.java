@@ -1,5 +1,6 @@
 package com.example.dg.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,10 @@ public class ClienteService {
         return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     }
     public List<Cliente> buscarTodosClientes() {
-        return clienteRepository.findAll();
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        Collections.reverse(clientes);
+        return clientes;
     }
     public void deletarCliente(int id) {
         if (clienteRepository.existsById(id)) {

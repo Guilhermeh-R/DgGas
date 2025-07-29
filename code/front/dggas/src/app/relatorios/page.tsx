@@ -49,7 +49,7 @@ export default function RelatoriosPage() {
                 "Content-Type": "application/json",
                 Accept: "application/pdf",
             },
-            body: JSON.stringify(parseInt(mesesSemCompra)),
+            body: JSON.stringify(parseInt(mesesSemCompra) ),
         });
 
         if (!response.ok) {
