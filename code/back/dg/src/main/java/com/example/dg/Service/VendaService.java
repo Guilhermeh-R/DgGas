@@ -1,5 +1,6 @@
 package com.example.dg.Service;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,7 +75,10 @@ public class VendaService {
     }
 
     public List<Venda> buscarTodasVendas() {
-        return vendaRepository.findAll();
+        List<Venda> vendas = vendaRepository.findAll();
+
+        Collections.reverse(vendas);
+        return vendas;
     }
 
     public void deletarVenda(int id) {

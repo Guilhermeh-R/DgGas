@@ -23,8 +23,15 @@ export default function Pedidos() {
   const [showModal, setShowModal] = useState(false);
   const [sugestoesNome, setSugestoesNome] = useState<Cliente[]>([]);
   const [sugestoesEndereco, setSugestoesEndereco] = useState<Cliente[]>([]);
+  const [mensagem, setMensagem] = useState("");
+  const [tipoMensagem, setTipoMensagem] = useState<"sucesso" | "erro" | "">("");
+  const [vendas, setVendas] = useState([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+      fetchVendas()
+        .catch((error) => console.error("Erro ao carregar vendas:", error));
+    }, []);
   // Fecha modal se clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -110,16 +117,25 @@ export default function Pedidos() {
       });
 
       if (!response.ok) throw new Error("Erro ao cadastrar venda");
-      alert("Venda cadastrada com sucesso!");
+
+      setMensagem("Venda cadastrada com sucesso!");
+      setTipoMensagem("sucesso");
+
     } catch (error) {
       console.error("Erro ao cadastrar venda:", error);
-      alert("Erro ao cadastrar venda.");
+      setMensagem("Erro ao cadastrar venda.");
+      setTipoMensagem("erro");
     }
 
     setForm({ cliente: null, valor: 0 });
     setSugestoesNome([]);
     setShowModal(false);
+    setTimeout(() => {
+      setMensagem("");
+      setTipoMensagem("");
+    }, 3000);
   };
+  
   function selecionarCliente(cliente: Cliente) {
     setForm((prev) => ({
       ...prev,
@@ -128,9 +144,25 @@ export default function Pedidos() {
     setSugestoesNome([]);
     setSugestoesEndereco([]);
   }
+  const fetchVendas = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/vendas/ListarTodos");
+      if (!response.ok) throw new Error("Erro ao buscar vendas");
+      const vendasData = await response.json();
+      setVendas(vendasData);
+    } catch (error) {
+      console.error("Erro ao buscar vendas:", error);
+    }
+  }
 
   return (
   <div className="flex flex-col items-center min-h-screen p-4">
+    {mensagem && (
+        <div className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white z-50 transition-all duration-300
+          ${tipoMensagem === "sucesso" ? "bg-green-500" : "bg-red-500"}`}>
+          {mensagem}
+        </div>
+      )}
     <h1 className="text-center text-3xl font-bold mb-8">Pedidos</h1>
     <button
       className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 self-start"
@@ -138,6 +170,25 @@ export default function Pedidos() {
     >
       Adicionar Pedido
     </button>
+
+    <ul className="w-full px-4 space-y-4 mt-6">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {vendas.map((venda: any) => (
+          <li
+            key={venda.id}
+            className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start"
+          >
+            <div>
+              <p><strong>Nome:</strong> {venda.cliente.nome}</p>
+              <p><strong>Endereço:</strong> {venda.cliente.endereco}</p>
+              <p><strong>Valor:</strong> R$ {venda.valor.toFixed(2)}</p>
+            </div>
+            <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+              Editar
+            </button>
+          </li>
+        ))}
+      </ul>
 
     {showModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
