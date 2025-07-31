@@ -50,7 +50,7 @@ export default function Home() {
     <div className="flex justify-around items-center mb-8 w-full px-8">
       <div className="bg-gray-200 shadow-lg rounded-lg p-6 w-64">
         <h2 className="text-2xl font-semibold mb-4">Faturamento do Mês</h2>
-        <p className="text-lg">R$ ${totalFaturado.toFixed(2)}</p>
+        <p className="text-lg">R$ {totalFaturado.toFixed(2)}</p>
         {/* Conteúdo do card esquerdo */}
       </div>
       <div className="bg-gray-200 shadow-lg rounded-lg p-6 w-64">
@@ -64,7 +64,7 @@ export default function Home() {
       <div className="bg-gray-200 shadow-lg rounded-lg p-6 w-64">
         {/* Conteúdo do card esquerdo */}
         <h2 className="text-2xl font-semibold mb-4">Faturamento do dia</h2>
-        <p className="text-lg">R$ ${totalFaturadoDia.toFixed(2)}</p>
+        <p className="text-lg">R$ {totalFaturadoDia.toFixed(2)}</p>
       </div>
       <div className="bg-gray-200 shadow-lg rounded-lg p-6 w-64">
         {/* Conteúdo do card direito */}

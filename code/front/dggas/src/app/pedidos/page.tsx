@@ -199,6 +199,7 @@ export default function Pedidos() {
             <div className="mb-4 relative">
               <input
                 type="text"
+                placeholder="Digite o nome do cliente"
                 className="w-full p-2 border rounded"
                 value={form.cliente?.nome || ""}
                 onChange={(e) => {
@@ -229,6 +230,7 @@ export default function Pedidos() {
             <div className="mb-4 relative">
               <input
                 type="text"
+                placeholder="Digite o endereço do cliente"
                 className="w-full p-2 border rounded"
                 value={form.cliente?.endereco || ""}
                 onChange={(e) => {

@@ -20,6 +20,21 @@ public class ClienteService {
 
 
     public Cliente cadastrarCliente(Cliente cliente) {
+        if (cliente.getNome() == null || cliente.getNome().isEmpty()) {
+            throw new IllegalArgumentException("Nome do cliente não pode ser vazio");
+        }
+        if (cliente.getTelefone() == null || !cliente.validarNumero(cliente.getTelefone())) {
+            throw new IllegalArgumentException("Número de telefone inválido");
+        }
+        if (cliente.getEndereco() == null || !cliente.validarEndereco(cliente.getEndereco())) {
+            throw new IllegalArgumentException("Endereço inválido");
+        }
+        List<Cliente> clientesExistentes = clienteRepository.findAll();
+        for (Cliente c : clientesExistentes) {
+            if (c.getEndereco().equals(cliente.getEndereco())) {
+                throw new IllegalArgumentException("Endereço já cadastrado");
+            }
+        }
         return clienteRepository.save(cliente);
     }
     public Cliente atualizarCliente(Cliente cliente) {

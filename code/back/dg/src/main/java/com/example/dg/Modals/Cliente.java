@@ -51,24 +51,37 @@ public class Cliente {
     }
 
     public Boolean validarEndereco(String endereco) {
-        if (endereco == null || endereco.trim().isEmpty()) {
-            return false;
-        }
-
-        if (!endereco.contains(",")) {
-            return false;
-        }
-
-        if (endereco.length() < 5) {
-            return false;
-        }
-
-        String[] partes = endereco.split(",");
-        if (partes.length < 2 || partes[0].trim().isEmpty() || partes[1].trim().isEmpty()) {
-            return false;
-        }
-
-        return true;
+    if (endereco == null || endereco.trim().isEmpty()) {
+        return false;
     }
+
+    endereco = endereco.trim();
+
+    if (!endereco.contains(",")) {
+        String[] palavras = endereco.split("\\s+");
+        if (palavras.length < 2) {
+            return false;
+        }
+
+        String numero = palavras[palavras.length - 1];
+        StringBuilder rua = new StringBuilder();
+        for (int i = 0; i < palavras.length - 1; i++) {
+            rua.append(palavras[i]);
+            if (i < palavras.length - 2) {
+                rua.append(" ");
+            }
+        }
+
+        endereco = rua.toString() + ", " + numero;
+    }
+
+    String[] partes = endereco.split(",");
+    if (partes.length < 2 || partes[0].trim().isEmpty() || partes[1].trim().isEmpty()) {
+        return false;
+    }
+
+    this.endereco = endereco; 
+    return true;
+}
 
 }
