@@ -7,8 +7,8 @@ interface Cliente {
   nome: string;
   endereco: string;
   telefone: string;
-  dataUltimaCompra: string;
-  previsaoTerminoGas: string;
+  dataUltimaCompra: Date;
+  previsaoTerminoGas: Date;
 }
 
 export default function Clientes() {
@@ -101,6 +101,30 @@ export default function Clientes() {
       setTipoMensagem("erro");
     }
   };
+  const deleteCliente = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:8080/clientes/deletar/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setMensagem("Cliente deletado com sucesso!");
+        setTipoMensagem("sucesso");
+        const atualizados = await getClientes();
+        setClientes(atualizados);
+        setBuscarCliente(atualizados);
+        setClienteModal(null);
+      } else {
+        setMensagem("Erro ao deletar cliente.");
+        setTipoMensagem("erro");
+        setClienteModal(null);
+      }
+    } catch (error) {
+      setMensagem("Erro ao conectar com o servidor.");
+      setTipoMensagem("erro");
+      setClienteModal(null);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4">
@@ -174,6 +198,18 @@ export default function Clientes() {
                   className="w-full border border-gray-300 rounded px-3 py-2"
                   placeholder="Endereço"
                 />
+                <p>
+                    <strong>Data da última compra:</strong>{" "}
+                    {clienteModal.dataUltimaCompra
+                      ? new Date(clienteModal.dataUltimaCompra).toLocaleDateString('pt-BR')
+                      : "Não informada"}
+                </p>
+                <p>
+                    <strong>Previsão do término do gás:</strong>{" "}
+                    {clienteModal.previsaoTerminoGas
+                      ? new Date(clienteModal.previsaoTerminoGas).toLocaleDateString('pt-BR')
+                      : "Não informada"}
+                </p>
 
                 <div className="flex justify-between mt-4">
                   <button
@@ -183,14 +219,6 @@ export default function Clientes() {
                   >
                     Fechar
                   </button>
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    onClick={() => updateCliente(clienteModal)}
-                  >
-                    Salvar
-                  </button>
-
                   <a
                     href={`https://wa.me/55${clienteModal.telefone.replace(/\D/g, "")}?text=Olá%20${encodeURIComponent(clienteModal.nome)},%20tudo%20bem?`}
                     target="_blank"
@@ -199,6 +227,23 @@ export default function Clientes() {
                   >
                     Enviar WhatsApp
                   </a>
+                  
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    onClick={() => deleteCliente(clienteModal.id)}
+                  >
+                    Deletar
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    onClick={() => updateCliente(clienteModal)}
+                  >
+                    Salvar
+                  </button>
+
+                  
                 </div>
               </form>
             </div>

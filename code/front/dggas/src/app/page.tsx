@@ -23,7 +23,7 @@ export default function Home() {
   }
   const getDia = async () => {
     try {
-      const response = await fetch("http://localhost:8080/relatorio/totalDia");
+      const response = await fetch("http://localhost:8080/relatorio/totalHoje");
       if (!response.ok) {
         throw new Error("Erro ao buscar faturamento do dia");
       }

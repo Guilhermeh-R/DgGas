@@ -81,15 +81,26 @@ export default function RelatoriosPage() {
       <div className="bg-gray-100 p-6 rounded shadow w-full max-w-md">
         <h2 className="text-xl font-semibold mb-4">Relatório Mensal</h2>
         <div className="space-y-4">
-          <input
-            type="number"
-            placeholder="Mês (1-12)"
+          <select
+            name="mes"
+            className="w-full border border-gray-300 rounded px-3 py-2"
             value={mes}
             onChange={(e) => setMes(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            min={1}
-            max={12}
-          />
+          >
+            <option value="">Selecione o mês</option>
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
           <input
             type="number"
             placeholder="Ano"
