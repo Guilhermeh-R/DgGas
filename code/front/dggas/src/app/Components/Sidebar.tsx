@@ -7,6 +7,7 @@ const menu = [
   { href: "/clientes", label: "Clientes" },
   { href: "/pedidos", label: "Pedidos" },
   { href: "/relatorios", label: "Relatórios" },
+  { href: "/vendas", label: "Vendas" },
 ];
 
 export default function Sidebar() {

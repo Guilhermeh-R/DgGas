@@ -47,4 +47,8 @@ public class ClienteController {
     public void deletarCliente(@PathVariable int id) {
         clienteService.deletarCliente(id);
     }
+    @GetMapping("/buscarPrevisao")
+    public List<Cliente> buscarClientesComPrevisao() {
+        return clienteService.previsaoTerminoGasHoje();
+    }
 }

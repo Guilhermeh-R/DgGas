@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.example.dg.Service.VendaService;
-
+import com.example.dg.Modals.Cliente;
 import com.example.dg.Modals.Venda;
 
 @RestController
@@ -40,5 +40,9 @@ public class VendaController {
     @PostMapping("/deletar")
     public void deletarVenda(@RequestBody int id) {
         vendaService.deletarVenda(id);
+    }
+    @GetMapping("/pos")
+    public List<Cliente> buscarClientesPos() {
+        return vendaService.clientesPosVenda();
     }
 }

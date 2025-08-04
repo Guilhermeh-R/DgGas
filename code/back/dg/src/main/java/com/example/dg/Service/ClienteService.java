@@ -1,6 +1,10 @@
 package com.example.dg.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +64,23 @@ public class ClienteService {
             throw new RuntimeException("Cliente não encontrado");
         }
     }
+    public List<Cliente> previsaoTerminoGasHoje() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        List<Cliente> clientesComPrevisao = new ArrayList<>();
+
+        for (Cliente cliente : clientes) {
+            Date data = cliente.getPrevisaoTerminoGas();
+
+            if (data != null) {
+                LocalDate previsao = ((java.sql.Date) data).toLocalDate();
+                if (previsao.isEqual(LocalDate.now())) {
+                    clientesComPrevisao.add(cliente);
+                }
+            }
+        }
+
+        return clientesComPrevisao;
+    }
+
 
 }

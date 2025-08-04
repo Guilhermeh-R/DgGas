@@ -1,8 +1,14 @@
 package com.example.dg.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.time.ZoneId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,4 +90,24 @@ public class VendaService {
     public void deletarVenda(int id) {
         vendaRepository.deleteById(id);
     }
+    public List<Cliente> clientesPosVenda() {
+        LocalDate ontem = LocalDate.now().minusDays(1);
+        List<Venda> vendas = vendaRepository.findAll();
+
+        Set<Cliente> clientesPosVenda = new HashSet<>();
+
+        for (Venda venda : vendas) {
+            Date vendaData = venda.getData();
+            if (vendaData != null) {
+                LocalDate dataVenda = ((java.sql.Date) vendaData).toLocalDate();
+
+                if (dataVenda.equals(ontem)) {
+                    clientesPosVenda.add(venda.getCliente());
+                }
+            }
+        }
+
+        return new ArrayList<>(clientesPosVenda);
+    }
+
 }
