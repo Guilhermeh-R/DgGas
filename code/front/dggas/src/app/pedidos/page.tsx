@@ -6,11 +6,13 @@ import { useRouter } from 'next/navigation';
 
 
 interface Cliente {
-  id: number;
-  nome: string;
-  endereco: string;
-  telefone: string;
-}
+    id: number;
+    nome: string;
+    endereco: string;
+    telefone: string;
+    dataUltimaCompra: Date;
+    previsaoTerminoGas: Date;
+  };
 
 
 
@@ -176,12 +178,13 @@ export default function Pedidos() {
         {vendas.map((venda: any) => (
           <li
             key={venda.id}
-            className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-start"
+            className="bg-gray-200 p-4 w-full rounded shadow flex justify-between items-center "
           >
             <div>
               <p><strong>Nome:</strong> {venda.cliente.nome}</p>
               <p><strong>Endereço:</strong> {venda.cliente.endereco}</p>
               <p><strong>Valor:</strong> R$ {venda.valor.toFixed(2)}</p>
+              <p><strong>Data da Venda:</strong> {new Date(venda.data).toLocaleDateString()}</p>
             </div>
             <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
               Editar

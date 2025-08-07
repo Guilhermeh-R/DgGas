@@ -13,7 +13,7 @@ CREATE TABLE Venda (
     id SERIAL PRIMARY KEY,
     data DATE,
     valor DECIMAL,
-    cliente_id INT REFERENCES Cliente(id)
+    cliente_id INT REFERENCES Cliente(id) on DELETE CASCADE,
 );
 
 -- Criação da tabela Relatorio
