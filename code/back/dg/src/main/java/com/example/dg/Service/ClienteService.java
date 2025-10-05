@@ -1,3 +1,4 @@
+//O método save mistura regras de negócio e persistência.
 package com.example.dg.Service;
 
 import java.time.LocalDate;
