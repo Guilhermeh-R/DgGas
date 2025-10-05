@@ -1,3 +1,6 @@
+//A chamada de API está misturada com renderização de UI.
+
+
 'use client';
 import { useEffect, useState } from "react";
 import { getClientes } from "./service";
