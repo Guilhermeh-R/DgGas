@@ -1,3 +1,4 @@
+//Os componentes estão muito grandes.
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 import Clientes from "../clientes/page";
