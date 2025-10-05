@@ -1,3 +1,5 @@
+//O serviço acessa repositórios diretamente e retorna dados crus.
+    
 package com.example.dg.Service;
 
 import java.io.ByteArrayOutputStream;

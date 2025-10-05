@@ -1,3 +1,5 @@
+//Lógica de formatação de dados duplicada.
+
 'use client';
 
 import { useState } from "react";

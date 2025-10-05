@@ -1,3 +1,5 @@
+//Não há tratamento de exceções específicas.
+
 package com.example.dg.Service;
 
 import java.time.LocalDate;

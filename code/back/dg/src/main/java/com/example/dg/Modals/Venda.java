@@ -1,3 +1,5 @@
+//O relacionamento com cliente e relatório não tem fetch configurado.
+
 package com.example.dg.Modals;
 
 import jakarta.persistence.*;

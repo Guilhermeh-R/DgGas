@@ -1,3 +1,5 @@
+//O retorno do relatório está fortemente acoplado às entidades do banco.
+
 package com.example.dg.Controller;
 
 import org.springframework.http.HttpHeaders;

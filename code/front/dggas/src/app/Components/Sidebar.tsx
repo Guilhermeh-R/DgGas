@@ -1,3 +1,4 @@
+//Os botões e links não têm atributos aria-label.
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

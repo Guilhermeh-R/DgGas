@@ -1,4 +1,4 @@
-
+//Está retornando any em algumas funções.
 export function getClientes() {
   return fetch("http://localhost:8080/clientes/ListarTodos")
     .then((response) => response.json())

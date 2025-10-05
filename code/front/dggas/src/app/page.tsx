@@ -1,3 +1,6 @@
+//A página inicial está com código repetido que poderia virar componente.
+//Os formulários não têm validação.
+
 'use client';
 import Image from "next/image";
 import { use, useEffect, useState } from "react";

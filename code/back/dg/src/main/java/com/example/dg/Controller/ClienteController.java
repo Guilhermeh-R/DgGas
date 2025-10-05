@@ -1,3 +1,5 @@
+// O controlador está contendo muita lógica que poderia ser movida para a camada de serviço.
+    
 package com.example.dg.Controller;
 
 import java.util.List;
