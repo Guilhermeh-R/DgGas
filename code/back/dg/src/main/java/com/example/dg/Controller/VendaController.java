@@ -1,3 +1,4 @@
+// Os endpoints não seguem um padrão uniforme de nomenclatura REST.
 package com.example.dg.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
