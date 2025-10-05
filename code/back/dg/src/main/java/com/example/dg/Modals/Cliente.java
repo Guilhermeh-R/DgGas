@@ -1,3 +1,5 @@
+//Faltam anotações de validação como @NotNull, @Email, @Size.
+
 package com.example.dg.Modals;
 
 import jakarta.persistence.*;
