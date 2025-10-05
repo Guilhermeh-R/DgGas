@@ -1,3 +1,4 @@
+//Está faltando configuração de CORS e políticas de roles/authorities.
 package com.example.dg.Security;
 
 import org.springframework.context.annotation.Bean;
