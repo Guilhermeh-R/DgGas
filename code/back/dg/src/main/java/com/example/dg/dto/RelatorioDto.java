@@ -1,3 +1,5 @@
+//O DTO poderia ser imutável.
+
 package com.example.dg.dto;
 
 import lombok.AllArgsConstructor;
